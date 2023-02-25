@@ -51,34 +51,7 @@ io.on("connection", (socket) => {
     io.to(me).emit("new game board1", ticTacToe, turn);
   });
 
-  ///update clicked
-
-  players[socket.id] = {
-    id: socket.id,
-    name: "Player " + (Object.keys(players).length + 1),
-  };
-  //video call
-  socket.emit("me", socket.id);
-
-  socket.on("disconnect", () => {
-    socket.broadcast.emit("callEnded");
-  });
-
-  socket.on("callUser", (data) => {
-    io.to(data.userToCall).emit("callUser", {
-      signal: data.signalData,
-      from: data.from,
-      name: data.name,
-    });
-    socket.join(data.userToCall);
-    console.log(`join room ${data.userToCall}`);
-  });
-
-  socket.on("answerCall", (data) => {
-    io.to(data.to).emit("callAccepted", data.signal);
-    socket.join(data.myid);
-    console.log(`join room ${data.myid}`);
-  });
+ 
 });
 
 server.listen(5000, console.log("server is running at port 5000"));
